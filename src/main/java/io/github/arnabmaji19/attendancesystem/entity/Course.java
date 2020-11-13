@@ -23,6 +23,14 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private List<Lecture> lectures;
 
+    @ManyToMany
+    @JoinTable(
+            name = "enrollments",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> enrolledStudents;
+
     public Course() {
     }
 
@@ -61,6 +69,21 @@ public class Course {
 
     public void setLectures(List<Lecture> lectures) {
         this.lectures = lectures;
+    }
+
+    public List<User> getEnrolledStudents() {
+        return enrolledStudents;
+    }
+
+    public void setEnrolledStudents(List<User> enrolledStudents) {
+        this.enrolledStudents = enrolledStudents;
+    }
+
+    public void enrollStudent(User user) {
+        if (enrolledStudents == null)
+            enrolledStudents = new ArrayList<>();
+
+        enrolledStudents.add(user);
     }
 
     public void addLecture(Lecture lecture) {
