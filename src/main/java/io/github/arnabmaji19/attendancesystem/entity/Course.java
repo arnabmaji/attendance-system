@@ -1,6 +1,8 @@
 package io.github.arnabmaji19.attendancesystem.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "courses")
@@ -17,6 +19,9 @@ public class Course {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "course")
+    private List<Lecture> lectures;
 
     public Course() {
     }
@@ -48,5 +53,21 @@ public class Course {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Lecture> getLectures() {
+        return lectures;
+    }
+
+    public void setLectures(List<Lecture> lectures) {
+        this.lectures = lectures;
+    }
+
+    public void addLecture(Lecture lecture) {
+        if (lectures == null)
+            lectures = new ArrayList<>();
+
+        lecture.setCourse(this);
+        lectures.add(lecture);
     }
 }

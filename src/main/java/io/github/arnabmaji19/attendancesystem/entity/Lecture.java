@@ -15,7 +15,15 @@ public class Lecture {
     @Column(name = "date")
     private Date date;
 
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
+
     public Lecture() {
+    }
+
+    public Lecture(Date date) {
+        this.date = date;
     }
 
     public int getId() {
@@ -32,5 +40,13 @@ public class Lecture {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }
