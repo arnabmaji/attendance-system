@@ -1,7 +1,6 @@
 package io.github.arnabmaji19.attendancesystem.restcontroller;
 
-import io.github.arnabmaji19.attendancesystem.entity.User;
-import io.github.arnabmaji19.attendancesystem.model.AppRole;
+import io.github.arnabmaji19.attendancesystem.repository.StudentDetailRepository;
 import io.github.arnabmaji19.attendancesystem.service.RoleService;
 import io.github.arnabmaji19.attendancesystem.service.UserService;
 import org.slf4j.Logger;
@@ -19,20 +18,17 @@ public class TestController {
 
     private final UserService userService;
     private final RoleService roleService;
+    private StudentDetailRepository studentDetailRepository;
 
     @Autowired
-    public TestController(UserService userService, RoleService roleService) {
+    public TestController(UserService userService, RoleService roleService, StudentDetailRepository studentDetailRepository) {
         this.userService = userService;
         this.roleService = roleService;
+        this.studentDetailRepository = studentDetailRepository;
     }
 
     @GetMapping("/")
     public String test() {
-        User user = new User("teacher123",
-                        "Teacher 123",
-                        "12345",
-                        roleService.findRoleByName(AppRole.TEACHER));
-        userService.save(user);
         return "Test";
     }
 }

@@ -2,19 +2,13 @@ package io.github.arnabmaji19.attendancesystem.entity;
 
 import javax.persistence.*;
 
-// TODO: Fix Foreign Key issues
 @Entity
 @Table(name = "student_details")
 public class StudentDetail {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "user_id")
     private int id;
-
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @Column(name = "parent_phone")
     private String parentPhone;
@@ -22,8 +16,8 @@ public class StudentDetail {
     public StudentDetail() {
     }
 
-    public StudentDetail(User user, String parentPhone) {
-        this.user = user;
+    public StudentDetail(int id, String parentPhone) {
+        this.id = id;
         this.parentPhone = parentPhone;
     }
 
@@ -33,14 +27,6 @@ public class StudentDetail {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getParentPhone() {
