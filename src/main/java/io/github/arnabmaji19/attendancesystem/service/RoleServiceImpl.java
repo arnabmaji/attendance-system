@@ -5,6 +5,7 @@ import io.github.arnabmaji19.attendancesystem.model.AppRole;
 import io.github.arnabmaji19.attendancesystem.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RoleServiceImpl implements RoleService{
@@ -17,6 +18,7 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
+    @Transactional
     public Role findRoleByName(AppRole role) {
         return roleRepository.findRoleByName(role);
     }

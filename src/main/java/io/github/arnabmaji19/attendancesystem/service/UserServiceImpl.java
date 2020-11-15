@@ -6,6 +6,7 @@ import io.github.arnabmaji19.attendancesystem.repository.StudentDetailRepository
 import io.github.arnabmaji19.attendancesystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,11 +21,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void save(User user) {
         userRepository.save(user);
     }
 
     @Override
+    @Transactional
     public void saveStudent(User user, StudentDetail studentDetail) {
         userRepository.save(user);
         studentDetail.setId(user.getId());
