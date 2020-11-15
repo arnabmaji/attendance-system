@@ -1,9 +1,9 @@
 package io.github.arnabmaji19.attendancesystem.restcontroller;
 
-import io.github.arnabmaji19.attendancesystem.dao.CourseRepository;
-import io.github.arnabmaji19.attendancesystem.dao.LectureRepository;
-import io.github.arnabmaji19.attendancesystem.dao.RoleRepository;
-import io.github.arnabmaji19.attendancesystem.dao.UserRepository;
+import io.github.arnabmaji19.attendancesystem.repository.CourseRepository;
+import io.github.arnabmaji19.attendancesystem.repository.LectureRepository;
+import io.github.arnabmaji19.attendancesystem.repository.RoleRepository;
+import io.github.arnabmaji19.attendancesystem.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
