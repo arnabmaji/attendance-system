@@ -40,7 +40,7 @@ public class TeacherController {
                 userDetails.getUsername(),
                 userDetails.getName(),
                 userDetails.getPassword(),
-                roleService.findRoleByName(AppRole.TEACHER));
+                roleService.findRoleByName(AppRole.ROLE_TEACHER));
         userService.save(user);
         return ResponseEntity.ok().build();
     }

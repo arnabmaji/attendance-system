@@ -39,7 +39,7 @@ public class StudentController {
                 studentDetails.getUsername(),
                 studentDetails.getName(),
                 studentDetails.getPassword(),
-                roleService.findRoleByName(AppRole.STUDENT)
+                roleService.findRoleByName(AppRole.ROLE_STUDENT)
         );
         StudentDetail studentDetail = new StudentDetail(user.getId(), studentDetails.getParentPhone());
         userService.saveStudent(user, studentDetail);

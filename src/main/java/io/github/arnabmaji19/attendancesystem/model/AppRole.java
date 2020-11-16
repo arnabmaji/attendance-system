@@ -1,5 +1,5 @@
 package io.github.arnabmaji19.attendancesystem.model;
 
 public enum AppRole {
-    ADMIN, TEACHER, STUDENT;
+    ROLE_ADMIN, ROLE_TEACHER, ROLE_STUDENT
 }
