@@ -33,4 +33,10 @@ public class UserServiceImpl implements UserService {
         studentDetail.setId(user.getId());
         studentDetailRepository.save(studentDetail);
     }
+
+    @Override
+    @Transactional
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
