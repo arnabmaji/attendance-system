@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +25,13 @@ public class TeacherController {
 
     private final UserService userService;
     private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public TeacherController(UserService userService, RoleService roleService) {
+    public TeacherController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/")
@@ -39,8 +42,8 @@ public class TeacherController {
         User user = new User(
                 userDetails.getUsername(),
                 userDetails.getName(),
-                userDetails.getPassword(),
-                roleService.findRoleByName(AppRole.ROLE_TEACHER));
+                passwordEncoder.encode(userDetails.getPassword()),
+                roleService.findRoleByName(AppRole.TEACHER));
         userService.save(user);
         return ResponseEntity.ok().build();
     }
