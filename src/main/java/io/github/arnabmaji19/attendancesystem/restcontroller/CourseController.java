@@ -2,10 +2,7 @@ package io.github.arnabmaji19.attendancesystem.restcontroller;
 
 import io.github.arnabmaji19.attendancesystem.entity.Course;
 import io.github.arnabmaji19.attendancesystem.entity.User;
-import io.github.arnabmaji19.attendancesystem.model.CourseDetails;
-import io.github.arnabmaji19.attendancesystem.model.ResponseMessage;
-import io.github.arnabmaji19.attendancesystem.model.StudentUsernameRequest;
-import io.github.arnabmaji19.attendancesystem.model.UserDetailsImpl;
+import io.github.arnabmaji19.attendancesystem.model.*;
 import io.github.arnabmaji19.attendancesystem.service.CourseService;
 import io.github.arnabmaji19.attendancesystem.service.UserService;
 import org.slf4j.Logger;
@@ -15,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/courses")
@@ -63,5 +62,18 @@ public class CourseController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{courseId}/enrollments/")
+    public ResponseEntity<?> getEnrollments(@PathVariable int courseId) {
+        Course course = courseService.findById(courseId);
+        if (course == null)
+            return ResponseEntity.badRequest().body(new ResponseMessage("Course not found."));
+
+        List<String> list = course
+                .getEnrolledStudents()
+                .stream()
+                .map(User::getUsername)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(new StudentUsernameList(list));
+    }
 
 }

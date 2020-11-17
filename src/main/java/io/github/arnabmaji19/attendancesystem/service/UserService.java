@@ -8,6 +8,5 @@ public interface UserService {
     void save(User user);
     void saveStudent(User user, StudentDetail studentDetail);
     User findByUsername(String username);
-
     User findById(int id);
 }
