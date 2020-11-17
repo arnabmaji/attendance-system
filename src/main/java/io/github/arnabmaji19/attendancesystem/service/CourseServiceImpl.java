@@ -19,4 +19,11 @@ public class CourseServiceImpl implements CourseService {
     public void save(Course course) {
         courseRepository.save(course);
     }
+
+    @Override
+    @Transactional
+    public Course findById(int id) {
+        return courseRepository.findById(id).orElse(null);
+    }
+
 }
