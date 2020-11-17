@@ -112,4 +112,19 @@ public class CourseController {
         return ResponseEntity.ok(list);
     }
 
+
+    @GetMapping("/{courseId}/attendance/{username}")
+    public ResponseEntity<?> getAttendance(@PathVariable int courseId,
+                                           @PathVariable String username,
+                                           @RequestParam int limit) {
+        Course course = courseService.findById(courseId);
+        if (course == null)
+            return ResponseEntity.badRequest().body(new ResponseMessage("Course not found."));
+        User user = userService.findByUsername(username);
+        if (user == null)
+            return ResponseEntity.badRequest().body(new ResponseMessage("User not found."));
+
+        return ResponseEntity.ok().body(courseService.getAttendanceStatus(course, user, limit));
+    }
+
 }

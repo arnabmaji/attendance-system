@@ -2,6 +2,7 @@ package io.github.arnabmaji19.attendancesystem.service;
 
 import io.github.arnabmaji19.attendancesystem.entity.Course;
 import io.github.arnabmaji19.attendancesystem.entity.User;
+import io.github.arnabmaji19.attendancesystem.model.AttendanceStatus;
 import io.github.arnabmaji19.attendancesystem.model.LectureDetails;
 import io.github.arnabmaji19.attendancesystem.repository.CourseRepository;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,18 @@ public class CourseServiceImpl implements CourseService {
             lectureDetailsList.add(new LectureDetails(lecture.getId(), lecture.getDate(), attendanceList));
         }
         return lectureDetailsList;
+    }
+
+    @Override
+    @Transactional
+    public List<AttendanceStatus> getAttendanceStatus(Course course, User user, int limit) {
+        return course.getLectures()
+                .stream()
+                .map(lecture -> {
+                    boolean present = lecture.getAttendanceList().contains(user);
+                    return new AttendanceStatus(lecture.getDate(), present);
+                })
+                .limit(limit)
+                .collect(Collectors.toList());
     }
 }

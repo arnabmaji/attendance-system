@@ -21,6 +21,7 @@ public class Course {
     private User user;
 
     @OneToMany(mappedBy = "course")
+    @OrderBy("date desc")
     private List<Lecture> lectures;
 
     @ManyToMany
