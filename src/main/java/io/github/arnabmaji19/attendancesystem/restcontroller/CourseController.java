@@ -102,4 +102,14 @@ public class CourseController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{courseId}/lectures/")
+    public ResponseEntity<?> getLectures(@PathVariable int courseId) {
+        Course course = courseService.findById(courseId);
+        if (course == null)
+            return ResponseEntity.badRequest().body(new ResponseMessage("Course not found."));
+
+        var list = courseService.getLectureDetailsList(course);
+        return ResponseEntity.ok(list);
+    }
+
 }
