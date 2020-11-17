@@ -2,6 +2,7 @@ package io.github.arnabmaji19.attendancesystem.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "lectures")
@@ -19,11 +20,20 @@ public class Lecture {
     @JoinColumn(name = "course_id")
     private Course course;
 
+    @ManyToMany
+    @JoinTable(
+            name = "attendances",
+            joinColumns = @JoinColumn(name = "lecture_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> attendanceList;
+
     public Lecture() {
     }
 
-    public Lecture(Date date) {
+    public Lecture(Date date, List<User> attendanceList) {
         this.date = date;
+        this.attendanceList = attendanceList;
     }
 
     public int getId() {
@@ -48,5 +58,13 @@ public class Lecture {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public List<User> getAttendanceList() {
+        return attendanceList;
+    }
+
+    public void setAttendanceList(List<User> attendanceList) {
+        this.attendanceList = attendanceList;
     }
 }

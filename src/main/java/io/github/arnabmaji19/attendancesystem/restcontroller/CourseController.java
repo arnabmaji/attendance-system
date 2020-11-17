@@ -1,9 +1,11 @@
 package io.github.arnabmaji19.attendancesystem.restcontroller;
 
 import io.github.arnabmaji19.attendancesystem.entity.Course;
+import io.github.arnabmaji19.attendancesystem.entity.Lecture;
 import io.github.arnabmaji19.attendancesystem.entity.User;
 import io.github.arnabmaji19.attendancesystem.model.*;
 import io.github.arnabmaji19.attendancesystem.service.CourseService;
+import io.github.arnabmaji19.attendancesystem.service.LectureService;
 import io.github.arnabmaji19.attendancesystem.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,10 +27,12 @@ public class CourseController {
 
     private final CourseService courseService;
     private final UserService userService;
+    private final LectureService lectureService;
 
-    public CourseController(CourseService courseService, UserService userService) {
+    public CourseController(CourseService courseService, UserService userService, LectureService lectureService) {
         this.courseService = courseService;
         this.userService = userService;
+        this.lectureService = lectureService;
     }
 
     @PostMapping("/")
@@ -74,6 +80,26 @@ public class CourseController {
                 .map(User::getUsername)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(new StudentUsernameList(list));
+    }
+
+    @PostMapping("/{courseId}/lectures/")
+    public ResponseEntity<?> createLectures(@PathVariable int courseId,
+                                            @Valid @RequestBody StudentUsernameList list) {
+
+        Course course = courseService.findById(courseId);
+        if (course == null)
+            return ResponseEntity.badRequest().body(new ResponseMessage("Course not found."));
+
+        List<User> userList = list.getUsernames()
+                .stream()
+                .map(userService::findByUsername)
+                .collect(Collectors.toList());
+        Lecture lecture = new Lecture(Date.valueOf(LocalDate.now()), userList);
+        course.addLecture(lecture);
+
+        lectureService.save(lecture);
+        courseService.save(course);
+        return ResponseEntity.ok().build();
     }
 
 }
