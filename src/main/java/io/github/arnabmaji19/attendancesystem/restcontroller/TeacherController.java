@@ -2,6 +2,7 @@ package io.github.arnabmaji19.attendancesystem.restcontroller;
 
 import io.github.arnabmaji19.attendancesystem.entity.User;
 import io.github.arnabmaji19.attendancesystem.model.AppRole;
+import io.github.arnabmaji19.attendancesystem.model.ResponseMessage;
 import io.github.arnabmaji19.attendancesystem.model.UserDetails;
 import io.github.arnabmaji19.attendancesystem.service.RoleService;
 import io.github.arnabmaji19.attendancesystem.service.UserService;
@@ -36,10 +37,13 @@ public class TeacherController {
 
     @PostMapping("/")
     public ResponseEntity<?> add(@Valid @RequestBody UserDetails userDetails) {
-        logger.info("Accepted UserDetails: " + userDetails.toString());
+
+        User user = userService.findByUsername(userDetails.getUsername());
+        if (user != null)
+            return ResponseEntity.badRequest().body(new ResponseMessage("username already registered."));
 
         // Save the accepted user details as a teacher
-        User user = new User(
+        user = new User(
                 userDetails.getUsername(),
                 userDetails.getName(),
                 passwordEncoder.encode(userDetails.getPassword()),
