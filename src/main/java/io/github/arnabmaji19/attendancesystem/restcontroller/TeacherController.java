@@ -49,7 +49,7 @@ public class TeacherController {
                 passwordEncoder.encode(userDetails.getPassword()),
                 roleService.findRoleByName(AppRole.TEACHER));
         userService.save(user);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("Teacher registered successfully!");
     }
 
 }

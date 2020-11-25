@@ -9,6 +9,7 @@ import io.github.arnabmaji19.attendancesystem.service.RoleService;
 import io.github.arnabmaji19.attendancesystem.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ public class StudentController {
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
 
+    @Autowired
     public StudentController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
@@ -51,6 +53,6 @@ public class StudentController {
         );
         StudentDetail studentDetail = new StudentDetail(user.getId(), studentDetails.getParentPhone());
         userService.saveStudent(user, studentDetail);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new ResponseMessage("Student registered successfully!"));
     }
 }
